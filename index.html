@@ -111,10 +111,15 @@
         return;
       }
 
-      const joinerRate = Math.round(((150 * hours) / people) + 80);
-      const memberRate = Math.round((140 * hours) / people);
-      const totalJoiner = Math.round(inputJoiner * joinerRate);
-      const totalMember = Math.round(inputMember * memberRate);
+      // 🔹 ปัดค่าผลหารให้เป็นจำนวนเต็มถัดไป (ceil)
+      const baseJoiner = Math.ceil((160 * hours) / people);
+      const baseMember = Math.ceil((150 * hours) / people);
+
+      const joinerRate = baseJoiner + 80;
+      const memberRate = baseMember;
+
+      const totalJoiner = inputJoiner * joinerRate;
+      const totalMember = inputMember * memberRate;
       const grandTotal = totalJoiner + totalMember;
 
       output.innerHTML = `

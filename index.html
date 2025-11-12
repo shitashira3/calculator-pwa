@@ -1,167 +1,175 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>แอพคำนวณขั้นสูง</title>
-  <!-- Load Tailwind CSS from CDN for simplicity -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Custom Tailwind Configuration for Font (Inter is default, but ensuring clean setup) -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>เครื่องคำนวณแจม & สมาชิก</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for Thai */
+        body {
+            font-family: 'Inter', sans-serif;
         }
-      }
-    }
-  </script>
-  <style>
-    /* Custom styling for subtle focus effect */
-    .input-focus:focus {
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue-500 with opacity */
-    }
-  </style>
+        /* Hide number input arrows for better UI */
+        input[type='number']::-webkit-inner-spin-button,
+        input[type='number']::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-gray-200">
+        <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-6">
+            เครื่องคำนวณ <span class="text-blue-600">แจม & สมาชิก</span>
+        </h2>
 
-  <!-- Main Container -->
-  <div class="max-w-md w-full mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200 space-y-4">
-    <h2 class="text-3xl font-extrabold text-center text-blue-700 mb-6 border-b pb-3">
-      เครื่องคำนวณแจม & สมาชิก
-    </h2>
+        <!-- Input Section -->
+        <div class="space-y-4">
+            <div>
+                <label for="hours" class="block text-sm font-medium text-gray-700 mb-1">
+                    🕒 จำนวนชั่วโมง:
+                </label>
+                <input type="number" id="hours" placeholder="เช่น 10"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm" />
+            </div>
 
-    <!-- Input Form -->
-    <div class="space-y-4">
-      
-      <div>
-        <label for="hours" class="block font-semibold text-gray-700 mb-1">
-          ⏳ จำนวนชั่วโมง:
-        </label>
-        <input type="number" id="hours" placeholder="เช่น 10" 
-               class="input-focus w-full p-3 border border-gray-300 rounded-xl text-lg transition duration-150 focus:outline-none" />
-      </div>
+            <div>
+                <label for="people" class="block text-sm font-medium text-gray-700 mb-1">
+                    🧑‍🤝‍🧑 จำนวนคนทั้งหมด (ใช้หารค่าห้อง):
+                </label>
+                <input type="number" id="people" placeholder="เช่น 5"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm" />
+            </div>
 
-      <div>
-        <label for="people" class="block font-semibold text-gray-700 mb-1">
-          👥 จำนวนคนทั้งหมด (ใช้หารค่าใช้จ่าย):
-        </label>
-        <input type="number" id="people" placeholder="เช่น 5" 
-               class="input-focus w-full p-3 border border-gray-300 rounded-xl text-lg transition duration-150 focus:outline-none" />
-      </div>
+            <hr class="border-gray-200 mt-4 mb-4">
 
-      <div class="grid grid-cols-2 gap-4 pt-2">
-        <div>
-          <label for="inputJoiner" class="block font-semibold text-gray-700 mb-1">
-            🎸 จำนวนคนแจม:
-          </label>
-          <input type="number" id="inputJoiner" placeholder="เช่น 2" 
-                 class="input-focus w-full p-3 border border-gray-300 rounded-xl text-lg transition duration-150 focus:outline-none" />
+            <div>
+                <label for="inputJoiner" class="block text-sm font-medium text-gray-700 mb-1">
+                    👤 จำนวนคนแจม:
+                </label>
+                <input type="number" id="inputJoiner" placeholder="เช่น 2"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm" />
+            </div>
+
+            <div>
+                <label for="inputMember" class="block text-sm font-medium text-gray-700 mb-1">
+                    ⭐ จำนวนสมาชิก:
+                </label>
+                <input type="number" id="inputMember" placeholder="เช่น 3"
+                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm" />
+            </div>
+
         </div>
-        
-        <div>
-          <label for="inputMember" class="block font-semibold text-gray-700 mb-1">
-            ⭐ จำนวนสมาชิก:
-          </label>
-          <input type="number" id="inputMember" placeholder="เช่น 3" 
-                 class="input-focus w-full p-3 border border-gray-300 rounded-xl text-lg transition duration-150 focus:outline-none" />
+
+        <!-- Button -->
+        <button onclick="calculate()"
+                class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition duration-300 ease-in-out shadow-lg transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
+            คำนวณค่าใช้จ่าย 🧮
+        </button>
+
+        <!-- Result Output -->
+        <div id="output" class="result mt-6 p-4 rounded-xl bg-gray-50 border border-dashed border-gray-300 min-h-20 text-gray-700">
+            <p class="text-center text-gray-500">กรุณากรอกข้อมูลเพื่อคำนวณ</p>
         </div>
-      </div>
     </div>
-    
-    <!-- Calculate Button -->
-    <button onclick="calculate()" 
-            class="w-full py-3 bg-blue-600 text-white font-bold text-xl rounded-xl hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-95 mt-6">
-      คำนวณ
-    </button>
 
-    <!-- Result Display -->
-    <div class="mt-6 p-5 bg-blue-50 border-2 border-blue-300 rounded-xl text-gray-800 text-lg leading-relaxed shadow-inner" id="output">
-      <!-- Initial message / Result will appear here -->
-      <strong>📊 กรุณากรอกข้อมูลด้านบนเพื่อเริ่มการคำนวณ</strong>
-    </div>
-  </div>
+    <script>
+        // Removed getFloorEven function. Now only Math.floor is used.
 
-  <script>
-    // Note: Removed Service Worker registration as it requires external files (sw.js, manifest.json, icon.png).
+        function calculate() {
+            const hours = parseFloat(document.getElementById("hours").value);
+            const people = parseFloat(document.getElementById("people").value);
+            const inputJoiner = parseFloat(document.getElementById("inputJoiner").value);
+            const inputMember = parseFloat(document.getElementById("inputMember").value);
+            const output = document.getElementById("output");
 
-    /**
-     * Calculates the rates and total costs for joiners and members.
-     * Uses toFixed(2) to ensure currency calculations have 2 decimal places for precision.
-     */
-    function calculate() {
-      const hours = parseFloat(document.getElementById("hours").value);
-      const people = parseFloat(document.getElementById("people").value);
-      const inputJoiner = parseFloat(document.getElementById("inputJoiner").value);
-      const inputMember = parseFloat(document.getElementById("inputMember").value);
-      const output = document.getElementById("output");
+            // --- Validation ---
+            if (isNaN(hours) || isNaN(people) || isNaN(inputJoiner) || isNaN(inputMember) || people <= 0) {
+                output.innerHTML = `<span class="text-red-500 font-semibold">⚠️ กรุณากรอกข้อมูลให้ครบทุกช่อง และจำนวนคน (ใช้หาร) ต้องมากกว่า 0</span>`;
+                output.classList.remove('bg-gray-50', 'bg-orange-100');
+                output.classList.add('bg-red-100');
+                return;
+            }
+            
+            // Check if total people equals the divider
+            if (inputJoiner + inputMember !== people) {
+                 output.innerHTML = `<span class="text-orange-500 font-semibold">⚠️ คำเตือน: จำนวนคนแจม + สมาชิก (รวม ${inputJoiner + inputMember} คน) ไม่เท่ากับจำนวนคนทั้งหมดที่ใช้หาร ( ${people} คน)</span>`;
+                 output.classList.remove('bg-gray-50', 'bg-red-100');
+                 output.classList.add('bg-orange-100');
+                 // Continue calculation despite the warning
+            } else {
+                 output.classList.remove('bg-red-100', 'bg-orange-100');
+                 output.classList.add('bg-gray-50');
+            }
+            // --- Calculation ---
 
-      // Validation
-      if (isNaN(hours) || isNaN(people) || isNaN(inputJoiner) || isNaN(inputMember) || people <= 0 || hours < 0 || inputJoiner < 0 || inputMember < 0) {
-        output.innerHTML = `<span class="text-red-600 font-bold">⚠️ กรุณากรอกข้อมูลเป็นตัวเลขที่ถูกต้องในทุกช่อง และจำนวนคนต้องมากกว่า 0</span>`;
-        return;
-      }
-      
-      // Check if total participants match the total people being divided
-      if (people !== (inputJoiner + inputMember)) {
-        output.innerHTML = `<span class="text-orange-600 font-bold">⚠️ ข้อควรระวัง:</span> <br>จำนวนคนแจม (${inputJoiner}) + สมาชิก (${inputMember}) รวมกันได้ ${inputJoiner + inputMember} คน ซึ่งไม่ตรงกับจำนวนคนทั้งหมดที่ใช้หารค่าใช้จ่าย (${people} คน) การคำนวณจะใช้ตัวเลขที่คุณกรอก`;
-        // Continue calculation even with the warning
-      }
+            // Base rate per hour for room cost (before dividing by people)
+            const ROOM_RATE_JOINER_PER_HOUR = 160;
+            const ROOM_RATE_MEMBER_PER_HOUR = 150;
+            const SERVICE_FEE_JOINER = 80; // Fixed additional fee for joiners
 
+            // 1. Calculate Room Cost per person (Integer by cutting fractions, no rounding)
+            const baseRoomCostJoiner = (ROOM_RATE_JOINER_PER_HOUR * hours) / people;
+            const baseRoomCostMember = (ROOM_RATE_MEMBER_PER_HOUR * hours) / people;
 
-      // --- Calculation Logic (Using fixed precision for currency) ---
-      
-      // Intermediate room cost per person, not rounded yet
-      const roomCostJoiner = (160 * hours) / people;
-      const roomCostMember = (150 * hours) / people;
+            // Apply Math.floor to keep only the integer part (no rounding, no adjustment for even number)
+            const roomCostJoiner = Math.floor(baseRoomCostJoiner);
+            const roomCostMember = Math.floor(baseRoomCostMember);
 
-      // Joiner rate includes room cost + 80 service fee, displayed with 2 decimal places
-      const joinerRate = (roomCostJoiner + 80).toFixed(2); 
-      // Member rate is just room cost, displayed with 2 decimal places
-      const memberRate = roomCostMember.toFixed(2); 
-      
-      // Total costs for each group. We must use parseFloat on the fixed strings for calculation
-      const totalJoiner = (parseFloat(joinerRate) * inputJoiner).toFixed(2);
-      const totalMember = (parseFloat(memberRate) * inputMember).toFixed(2);
+            // 2. Calculate Final Rate per person (Including fixed fee)
+            const joinerRate = roomCostJoiner + SERVICE_FEE_JOINER;
+            const memberRate = roomCostMember;
 
-      // Grand Total: Parse back to number for addition, then format for display
-      const grandTotal = (parseFloat(totalJoiner) + parseFloat(totalMember)).toFixed(2);
+            // 3. Calculate Total for each group
+            const totalJoiner = inputJoiner * joinerRate;
+            const totalMember = inputMember * memberRate;
+            const grandTotal = totalJoiner + totalMember;
 
-      // Display Results
-      output.innerHTML = `
-        <p class="font-bold text-xl text-blue-700 mb-4">📊 สรุปผลการคำนวณ:</p>
-        
-        <div class="space-y-2">
-          <p class="border-b pb-2 text-base">
-            ค่าห้อง/ค่าบริการ (ต่อคน) <br>
-            <span class="text-lg font-bold text-green-700">➕ คนแจม: ${joinerRate} บาท/คน</span> 
-            (ค่าห้อง ${roomCostJoiner.toFixed(2)} + ค่าบริการ 80.00)
-          </p>
-          <p class="border-b pb-2 text-base">
-            <span class="text-lg font-bold text-green-700">➕ สมาชิก: ${memberRate} บาท/คน</span> 
-            (ค่าห้อง ${roomCostMember.toFixed(2)} + ไม่มีค่าบริการ)
-          </p>
-        </div>
-        
-        <div class="mt-4 border-t pt-4">
-          <p class="mb-2">👤 จำนวนคนแจม: <span class="font-bold">${inputJoiner} คน</span></p>
-          <p class="mb-4">👤 จำนวนสมาชิก: <span class="font-bold">${inputMember} คน</span></p>
-          
-          <p class="text-lg font-extrabold text-gray-800">
-            💰 ผลรวมคนแจม: <span class="text-red-600">${totalJoiner} บาท</span><br>
-            💰 ผลรวมสมาชิก: <span class="text-red-600">${totalMember} บาท</span>
-          </p>
-        </div>
-        
-        <div class="mt-5 p-3 bg-blue-600 text-white rounded-lg text-center shadow-md">
-          <p class="text-xl font-extrabold">
-            🧮 รวมทั้งหมดที่ต้องจ่าย: ${grandTotal} บาท
-          </p>
-        </div>
-      `;
-    }
-  </script>
+            // --- Display Result ---
+            output.innerHTML += `
+                <strong class="block text-lg mb-3 text-blue-600">📊 สรุปผลการคำนวณ (จำนวนเต็ม ไม่ปัดเศษ):</strong>
+                
+                <div class="grid grid-cols-2 gap-2 text-base border-b pb-2 mb-2">
+                    <span class="font-bold text-gray-800">ค่าห้อง/ชม. คนแจม (160)</span>
+                    <span class="text-right">${ROOM_RATE_JOINER_PER_HOUR} x ${hours} ชม. / ${people} คน</span>
+                </div>
+                
+                <div class="space-y-1 mt-4 p-2 bg-blue-50 rounded-lg">
+                    <p>
+                        ➕ <span class="font-bold text-blue-700">ค่าคนแจมต่อคน:</span> 
+                        <strong class="float-right text-xl">${joinerRate}</strong> บาท
+                    </p>
+                    <p class="text-xs text-gray-500 ml-5">
+                        (ค่าห้องที่ตัดทศนิยม ${roomCostJoiner} + ค่าบริการ ${SERVICE_FEE_JOINER})
+                    </p>
+                    <p>
+                        ➕ <span class="font-bold text-blue-700">ค่าสมาชิกต่อคน:</span> 
+                        <strong class="float-right text-xl">${memberRate}</strong> บาท
+                    </p>
+                     <p class="text-xs text-gray-500 ml-5">
+                        (ค่าห้องที่ตัดทศนิยม ${roomCostMember})
+                    </p>
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-300">
+                    <p class="text-lg font-semibold text-gray-800">
+                        💰 ผลรวมคนแจม (${inputJoiner} คน): 
+                        <strong class="float-right text-green-600">${totalJoiner}</strong> บาท
+                    </p>
+                    <p class="text-lg font-semibold text-gray-800">
+                        💰 ผลรวมสมาชิก (${inputMember} คน): 
+                        <strong class="float-right text-green-600">${totalMember}</strong> บาท
+                    </p>
+                </div>
+
+                <div class="mt-4 p-3 bg-blue-100 rounded-lg font-extrabold text-xl text-blue-800">
+                    🧮 <span class="text-blue-600">รวมทั้งหมด:</span> 
+                    <strong class="float-right">${grandTotal}</strong> บาท
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
